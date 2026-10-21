@@ -17,6 +17,7 @@ case "$(uname -m)" in
 esac
 vr="${OPENVR_LIB_DIR:-/opt/steamvr/bin/$platform}"
 mkdir -p build/tests build/runtime/assets/input
+python3 tests/test_release_metadata.py
 flags=(-O2 -std=c++17 -pthread -Isrc -I"$sdk/native/compat" -I"$sdk/native"
   '-DMAGICSHELF_CREATION_PROFILE="creation_profile.h"')
 for name in math_test dock_math_test dock_config_test pet_text_input_test capture_recovery_test; do

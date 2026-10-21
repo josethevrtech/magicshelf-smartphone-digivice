@@ -2,6 +2,9 @@
 import json,os,pathlib,platform,shutil,subprocess,sys
 root=pathlib.Path(__file__).resolve().parents[1]
 sdk=pathlib.Path(os.environ.get('MAGICSHELF_SDK_DIR',root/'vendor/magicshelf'))
+subprocess.run([sys.executable,str(root/'tests/test_release_metadata.py')],check=True)
+creation=json.loads((root/'creation.json').read_text())
+repository=creation['repository'].removeprefix('https://github.com/')
 meta=json.loads((root/'module.json').read_text());meta['architecture']=platform.machine()
 stage=root/'build/package'
 if stage.exists():shutil.rmtree(stage)
@@ -15,4 +18,4 @@ shutil.copytree(root/'backend',stage/'backend',ignore=shutil.ignore_patterns('__
 shutil.copytree(root/'assets/input',stage/'assets/input')
 for name in ('LICENSE','OPENVR-LICENSE.txt'):shutil.copy2(root/name,stage/name)
 (stage/'module.json').write_text(json.dumps(meta,indent=2)+'\n')
-subprocess.run([sys.executable,str(sdk/'tools/package_creation.py'),str(stage),'--output',str(root/'dist'),'--repository','josethevrtech/magicshelf-digivice'],check=True)
+subprocess.run([sys.executable,str(sdk/'tools/package_creation.py'),str(stage),'--output',str(root/'dist'),'--repository',repository],check=True)

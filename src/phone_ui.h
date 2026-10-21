@@ -52,7 +52,7 @@ void centered(Canvas&c,const PhoneButton&b,double size,double r,double g,double 
 }
 void drawPhoneSettings(Canvas&c,bool wrist,float size,bool connected,bool protectedCare,float brightness=1.f,bool docked=false){
  c.fill(.035,.048,.065);
- c.text(24,33,AndroidOnly?"ANDROID PHONE":"DIGITAL PARTNER",19,.96,.57,.19);
+ c.text(24,33,AndroidOnly?"ANDROID PHONE":"SMARTPHONE DIGIVICE",19,.96,.57,.19);
  c.text(24,85,"Device settings",43);
  rounded(c,24,202,432,66,12,.075,.105,.13);
  c.text(40,229,connected?(AndroidOnly?"Android keeps running":"Your pet keeps running"):(AndroidOnly?"Connecting to Android...":"Connecting to your pet..."),23,.81,.9,.94);

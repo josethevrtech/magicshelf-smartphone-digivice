@@ -1,4 +1,4 @@
-name: Creation build
+name: Smartphone Digivice build and release
 on:
   push:
     branches: [main]
@@ -29,7 +29,7 @@ jobs:
       - run: python3 tools/package.py
       - uses: actions/upload-artifact@v4
         with:
-          name: frame-package
+          name: smartphone-digivice-frame-package
           path: dist/*
   release:
     if: startsWith(github.ref, 'refs/tags/')
@@ -40,14 +40,14 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: frame-package
+          name: smartphone-digivice-frame-package
           path: dist
-      - name: Publish independent creation release
+      - name: Publish Smartphone Digivice release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY"
           else
-            gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --notes "Free MagicShelf creation package. See README for Steam runtime and external asset requirements."
+            gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --title "Smartphone Digivice $GITHUB_REF_NAME" --notes "Free Smartphone Digivice package for MagicShelf on Steam Frame. Permanent creation ID: org.magicshelf.digital-partner. Existing subscriptions and saves stay connected, including subscriptions through the original magicshelf-digivice catalog URL. See README for Steam runtime and external asset requirements."
           fi

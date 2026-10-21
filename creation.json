@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "id": "org.magicshelf.digital-partner",
-  "name": "Digivice",
-  "version": "0.2.3",
-  "description": "Digivice, a free creation for MagicShelf on Steam Frame.",
-  "repository": "https://github.com/josethevrtech/magicshelf-digivice",
+  "name": "Smartphone Digivice",
+  "version": "0.2.4",
+  "description": "Raise your Digital Partner inside the Courage Smartphone Digivice on Steam Frame.",
+  "repository": "https://github.com/josethevrtech/magicshelf-smartphone-digivice",
   "sdk_version": "1.0.0",
   "module_api_version": 2,
   "integration": {

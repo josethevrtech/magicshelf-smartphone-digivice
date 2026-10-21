@@ -3,7 +3,7 @@
 constexpr bool AndroidOnly=false;
 constexpr const char* ApplicationKey="local.digitalpartner.vr";
 constexpr const char* DeviceKey="local.digitalpartner.device";
-constexpr const char* AppTitle="Digital Partner";
+constexpr const char* AppTitle="Smartphone Digivice";
 constexpr const char* ManifestFile="digitalpartner.vrmanifest";
 constexpr const char* SettingsFile="settings.json";
 constexpr const char* LockFile="instance.lock";

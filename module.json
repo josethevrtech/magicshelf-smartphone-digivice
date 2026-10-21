@@ -2,9 +2,9 @@
   "schema_version": 1,
   "api_version": 2,
   "id": "org.magicshelf.digital-partner",
-  "version": "0.2.3",
-  "name": "Digivice",
-  "description": "Give your Digital Partner a place on your shelf.",
+  "version": "0.2.4",
+  "name": "Smartphone Digivice",
+  "description": "Raise your Digital Partner inside the Courage Smartphone Digivice on Steam Frame.",
   "author": "josethevrtech",
   "license": "MIT (source); external assets retain their licenses",
   "platform": "linux",
@@ -22,8 +22,8 @@
   "price": 0,
   "links": [
     {
-      "label": "Digivice on GitHub",
-      "url": "https://github.com/josethevrtech/magicshelf-digivice"
+      "label": "Smartphone Digivice on GitHub",
+      "url": "https://github.com/josethevrtech/magicshelf-smartphone-digivice"
     },
     {
       "label": "MagicShelf framework",
@@ -36,15 +36,15 @@
   ],
   "category": "Companions",
   "tagline": "A digital companion, now in your world.",
-  "about": "A live Digital Partner game inside the Courage smartphone Digivice. Pick it up, interact with your pet, and keep it nearby in VR. The grab bar supports depth adjustment, and a shake sends it home. Off stops the game and its audio. Your saved game stays in this creation’s private data directory.",
+  "about": "Smartphone Digivice brings Digital Partner into VR inside Jojogape’s Courage smartphone model. Pick it up, care for your pet, and place it anywhere in your space. The on-device settings control size, brightness and placement; name fields open the headset keyboard. Off stops the game and its audio. Saved pets and settings stay in the same private data directory across updates.",
   "screenshots": [
     {
-      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-digivice/main/media/digivice.png",
-      "caption": "Digital Partner in Jojogape’s Courage Digivice model."
+      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-smartphone-digivice/v0.2.4/media/smartphone-digivice.png",
+      "caption": "Digital Partner running inside Smartphone Digivice, using Jojogape’s Courage model."
     },
     {
-      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-digivice/main/media/digivice-back.png",
-      "caption": "The Courage case and crest, viewed from the back."
+      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-smartphone-digivice/v0.2.4/media/smartphone-digivice-back.png",
+      "caption": "Smartphone Digivice’s Courage case and crest, viewed from the back."
     }
   ],
   "credits": [

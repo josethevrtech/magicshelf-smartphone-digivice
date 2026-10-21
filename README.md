@@ -1,14 +1,18 @@
-# Digivice
+# Smartphone Digivice
 
 A free creation for [MagicShelf](https://github.com/josethevrtech/magicshelf),
-for **SteamOS and Steam Frame only**. This repository owns the Digivice's
-application code, controls, backend integration, settings and releases.
+for **SteamOS and Steam Frame only**. This repository owns Smartphone Digivice’s
+application code, controls, backend integration, settings and releases. Raise your
+Digital Partner inside Jojogape’s Courage smartphone model.
+
+![Smartphone Digivice running Digital Partner](media/smartphone-digivice.png)
+![Smartphone Digivice Courage case](media/smartphone-digivice-back.png)
 
 ## Development
 
 ```sh
-git clone --recurse-submodules https://github.com/josethevrtech/magicshelf-digivice.git
-cd magicshelf-digivice
+git clone --recurse-submodules https://github.com/josethevrtech/magicshelf-smartphone-digivice.git
+cd magicshelf-smartphone-digivice
 ./build.sh
 ```
 
@@ -44,7 +48,23 @@ commands are supplied by the creation rather than hard-coded in the host.
 Readiness, rollback, free subscriptions and data preservation belong to MagicShelf.
 
 Build: `./build.sh`, then `python3 tools/package.py`.
-Catalog: `https://github.com/josethevrtech/magicshelf-digivice/releases/latest/download/catalog.json`.
+Catalog: `https://github.com/josethevrtech/magicshelf-smartphone-digivice/releases/latest/download/catalog.json`.
+
+### Renamed in 0.2.4
+
+Previously named **Digivice**, this is the same creation with the same saves.
+The permanent creation ID remains **`org.magicshelf.digital-partner`**.
+Existing subscriptions keep their original catalog URL:
+`https://github.com/josethevrtech/magicshelf-digivice/releases/latest/download/catalog.json`.
+GitHub's repository redirect delivers new releases from that URL. Do not remove
+and re-add the collection, change subscription records, or create another
+repository at the old name; that would replace the redirect.
+
+Package filenames, overlay keys, executable names and private data paths retain
+their existing identities. The release changes the public name, description,
+repository and screenshot links, and the on-device settings title. It does not
+migrate or reset game saves, imported inputs, subscriptions or placement settings.
+The legacy screenshot paths remain available for older published catalogs.
 
 Runtime state is in `~/.local/share/magicshelf/module-data/` under the stable
 creation ID. The old shared `Applications/DigitalPartner/vr` folder and legacy
