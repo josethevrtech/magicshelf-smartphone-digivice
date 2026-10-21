@@ -2,6 +2,7 @@
 #include "render.h"
 #include "openvr.h"
 #include "capture.h"
+#include "capture_recovery.h"
 #include "input.h"
 #include "placement.h"
 #include "resume.h"
@@ -72,7 +73,7 @@ int main(int argc,char**argv){try{
   if(result!=VROverlayError_None){std::cerr<<"Keyboard unavailable: "<<ov->GetOverlayErrorNameFromEnum(result)<<"\n";return;}
   keyboardOwned=true;std::cerr<<"Headset keyboard opened\n";
  };
- AutoResume autoresume(base);std::unique_ptr<Capture>capture;std::unique_ptr<GameInput>input;uint32_t node=0;uint64_t uploaded=0;double started=0;bool hasFrame=false;auto lastSource=std::chrono::steady_clock::now()-std::chrono::seconds(5);
+ CaptureRecovery<Capture> captureRecovery;AutoResume autoresume(base);std::unique_ptr<Capture>capture;std::unique_ptr<GameInput>input;uint32_t node=0;uint64_t uploaded=0;double started=0;bool hasFrame=false;auto lastSource=std::chrono::steady_clock::now()-std::chrono::seconds(5);
  std::unique_ptr<Capture>androidCapture;std::unique_ptr<AndroidTouch>androidInput;uint32_t androidNode=0;uint64_t androidUploaded=0;double androidStarted=0;
  auto lastUI=lastSource;auto lastSettingsTap=lastSource;
  auto lastControlsPoll=lastSource,lastBrightnessCommand=lastSource,lastNavigation=std::chrono::steady_clock::now();double controlsRevision=0;
@@ -95,7 +96,7 @@ int main(int argc,char**argv){try{
  };
  auto resetPlacement=[&](uint32_t type){if(visible&&dock.slot>=0){std::cerr<<"Placement reset event "<<type<<"\n";returnToDock("VR reset");}};
  while(running){auto now=std::chrono::steady_clock::now();returnedHome=false;if(hideRequested){hideRequested=0;visible=false;grab.end();recallRequested=false;pointerOnScreen=false;queuedClick=false;toggleSettings(false);save();std::cerr<<"Hidden by MagicShelf; capture kept alive\n";}if(showRequested){showRequested=0;openFromLauncher();}if(dockRequested){dockRequested=0;returnToDock();}
-  if(now-lastSource>std::chrono::seconds(2)){auto*j=AndroidOnly?nullptr:json_object_from_file((base+"/private-source.json").c_str());if(j){uint32_t n=readnum(j,"node");double st=readnum(j,"started");if(n&&(n!=node||st!=started||!capture||capture->failed)){try{capture.reset();input.reset();capture=std::make_unique<Capture>(n,480,1046,(uint64_t)readnum(j,"serial"));input=std::make_unique<GameInput>(readstr(j,"display"));node=n;started=st;autoresume.reset(readnum(j,"autoresume",0),readnum(j,"resume_slot",1));uploaded=0;hasFrame=false;std::cerr<<"Connected private game node="<<node<<" display="<<readstr(j,"display")<<"\n";}catch(std::exception&e){std::cerr<<e.what()<<"\n";}}json_object_put(j);}auto*aj=AndroidOnly?json_object_from_file((base+"/android-source.json").c_str()):nullptr;
+  if(now-lastSource>std::chrono::seconds(2)){auto*j=AndroidOnly?nullptr:json_object_from_file((base+"/private-source.json").c_str());if(j){uint32_t n=readnum(j,"node");double st=readnum(j,"started");if(n&&(n!=node||st!=started||!capture||capture->failed)){try{captureRecovery.reset();capture.reset();input.reset();capture=std::make_unique<Capture>(n,480,1046,(uint64_t)readnum(j,"serial"));input=std::make_unique<GameInput>(readstr(j,"display"));node=n;started=st;autoresume.reset(readnum(j,"autoresume",0),readnum(j,"resume_slot",1));uploaded=0;hasFrame=false;std::cerr<<"Connected private game node="<<node<<" display="<<readstr(j,"display")<<"\n";}catch(std::exception&e){std::cerr<<e.what()<<"\n";}}json_object_put(j);}auto*aj=AndroidOnly?json_object_from_file((base+"/android-source.json").c_str()):nullptr;
    if(aj){uint32_t n=readnum(aj,"node");double st=readnum(aj,"started");if(n&&(n!=androidNode||st!=androidStarted||!androidCapture||androidCapture->failed)){try{androidInput.reset();androidCapture.reset();androidHasFrame=false;androidCapture=std::make_unique<Capture>(n,720,1600,(uint64_t)readnum(aj,"serial"));androidInput=std::make_unique<AndroidTouch>(readstr(aj,"display"));androidNode=n;androidStarted=st;androidUploaded=0;std::cerr<<"Connected Android display "<<readstr(aj,"display")<<" node="<<n<<"\n";}catch(std::exception&e){std::cerr<<"Android: "<<e.what()<<"\n";}}json_object_put(aj);}else{androidInput.reset();androidCapture.reset();androidHasFrame=false;}
    lastSource=now;dirty=true;}
   if(AndroidOnly&&now-lastControlsPoll>std::chrono::milliseconds(200)){
@@ -105,7 +106,7 @@ int main(int argc,char**argv){try{
      controlsRevision=revision;if(fabsf(level-brightness)>.001f){brightness=level;dirty=true;save();}
     }json_object_put(c);}
   }
-  if(capture){capture->poll();if(capture->frames!=uploaded){if(!androidOpen&&!settingsOpen&&visible)renderer.screenPixels(capture->info.size.width,capture->info.size.height,capture->rgba.data());uploaded=capture->frames;if(!hasFrame){hasFrame=true;dirty=true;std::cerr<<"Live game screen received\n";}}}if(input){input->tick();if(capture&&hasFrame)autoresume.tick(*capture,*input);}
+  if(capture){captureRecovery.poll(capture);if(capture->frames!=uploaded){if(!androidOpen&&!settingsOpen&&visible)renderer.screenPixels(capture->info.size.width,capture->info.size.height,capture->rgba.data());uploaded=capture->frames;if(!hasFrame){hasFrame=true;dirty=true;std::cerr<<"Live game screen received\n";}}}if(input){input->tick();if(capture&&hasFrame)autoresume.tick(*capture,*input);}
   if(petKeyboard.take(now)&&!AndroidOnly&&visible&&!settingsOpen&&!grab.active&&input&&capture&&hasFrame&&!capture->failed
      &&petTextFieldAt(capture->rgba,capture->info.size.width,capture->info.size.height,petKeyboard.x,petKeyboard.y)){
    input->end();keyboard();

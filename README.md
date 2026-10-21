@@ -37,7 +37,7 @@ aarch64 `.magicshelf` package, catalog, checksums and GitHub Release here.
 The release does not rebuild MagicShelf or the other creation. SDK upgrades
 are explicit changes to the pinned submodule.
 
-Requires MagicShelf **0.3.0 / module API 2**. The package owns its shell and
+Requires MagicShelf **0.3.2 / module API 2**. The package owns its shell and
 backend lifecycle. Off stops its processes and cleans up external runtimes;
 On starts it using its private data directory. Configure and return-to-dock
 commands are supplied by the creation rather than hard-coded in the host.

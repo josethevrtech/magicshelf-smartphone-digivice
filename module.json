@@ -2,7 +2,7 @@
   "schema_version": 1,
   "api_version": 2,
   "id": "org.magicshelf.digital-partner",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "name": "Digivice",
   "description": "Give your Digital Partner a place on your shelf.",
   "author": "josethevrtech",

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "org.magicshelf.digital-partner",
   "name": "Digivice",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Digivice, a free creation for MagicShelf on Steam Frame.",
   "repository": "https://github.com/josethevrtech/magicshelf-digivice",
   "sdk_version": "1.0.0",
