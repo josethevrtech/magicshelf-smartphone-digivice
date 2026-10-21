@@ -1,0 +1,3 @@
+[submodule "vendor/magicshelf"]
+	path = vendor/magicshelf
+	url = https://github.com/josethevrtech/magicshelf.git

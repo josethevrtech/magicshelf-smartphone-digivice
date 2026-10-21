@@ -1,0 +1,48 @@
+name: Creation build
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  frame:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y g++ pkg-config libegl1-mesa-dev libgles2-mesa-dev libcairo2-dev libjson-c-dev libpipewire-0.3-dev libx11-dev libxtst-dev python3-cairo
+      - uses: actions/checkout@v4
+        with:
+          repository: ValveSoftware/openvr
+          ref: 0924064316de3effbcd1acf1e309182a2deb1c05
+          path: vendor/openvr
+      - run: ./build.sh
+        env:
+          OPENVR_LIB_DIR: ${{ github.workspace }}/vendor/openvr/bin/linuxarm64
+      - name: Verify release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: python3 -c 'import json,os; v=json.load(open("module.json"))["version"]; assert os.environ["GITHUB_REF_NAME"] == "v"+v, "Tag must match creation version"'
+      - run: python3 tools/package.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frame-package
+          path: dist/*
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: frame
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: frame-package
+          path: dist
+      - name: Publish independent creation release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --notes "Free MagicShelf creation package. See README for Steam runtime and external asset requirements."

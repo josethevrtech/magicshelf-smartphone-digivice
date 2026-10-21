@@ -1,0 +1,15 @@
+build/
+dist/
+__pycache__/
+*.pyc
+*.lock
+*.log
+/data/
+/assets/*.mesh
+/assets/*.rgba
+/assets/*.pattern
+/assets/model-info.json
+/assets/android-phone/
+/android-phone-icon.png
+/season1-icon.png
+/vendor/openvr/

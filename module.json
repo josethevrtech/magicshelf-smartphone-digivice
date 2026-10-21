@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "api_version": 2,
+  "id": "org.magicshelf.digital-partner",
+  "version": "0.2.2",
+  "name": "Digivice",
+  "description": "Give your Digital Partner a place on your shelf.",
+  "author": "josethevrtech",
+  "license": "MIT (source); external assets retain their licenses",
+  "platform": "linux",
+  "architecture": "aarch64",
+  "entrypoint": "bin/start",
+  "control_entrypoint": "bin/control",
+  "cleanup_entrypoint": "bin/cleanup",
+  "startup_timeout_sec": 180,
+  "permissions": [
+    "vr-overlay",
+    "external-runtime",
+    "user-files"
+  ],
+  "memory_mb": 2048,
+  "price": 0,
+  "links": [
+    {
+      "label": "Digivice on GitHub",
+      "url": "https://github.com/josethevrtech/magicshelf-digivice"
+    },
+    {
+      "label": "MagicShelf framework",
+      "url": "https://github.com/josethevrtech/magicshelf"
+    },
+    {
+      "label": "Digital Partner game",
+      "url": "https://aludeku.itch.io/digital-partner-digimon"
+    }
+  ],
+  "category": "Companions",
+  "tagline": "A digital companion, now in your world.",
+  "about": "A live Digital Partner game inside the Courage smartphone Digivice. Pick it up, interact with your pet, and keep it nearby in VR. The grab bar supports depth adjustment, and a shake sends it home. Off stops the game and its audio. Your saved game stays in this creation’s private data directory.",
+  "screenshots": [
+    {
+      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-digivice/main/media/digivice.png",
+      "caption": "Digital Partner in Jojogape’s Courage Digivice model."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/josethevrtech/magicshelf-digivice/main/media/digivice-back.png",
+      "caption": "The Courage case and crest, viewed from the back."
+    }
+  ],
+  "credits": [
+    {
+      "name": "Jojogape",
+      "role": "Smartphone Digivice 3D model",
+      "url": "https://x.com/jojogape",
+      "license": "Artist-provided personal-use model; no use for profit."
+    },
+    {
+      "name": "Aludeku",
+      "role": "Digital Partner game",
+      "url": "https://aludeku.itch.io/digital-partner-digimon",
+      "support_url": "https://aludeku.itch.io/digital-partner-digimon",
+      "license": "Game, characters and artwork retain their original rights."
+    },
+    {
+      "name": "boardernerd",
+      "role": "Original Season 1 Digivice used for the legacy icon",
+      "url": "https://www.thingiverse.com/thing:2695824",
+      "license": "Creative Commons Attribution."
+    }
+  ]
+}

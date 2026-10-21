@@ -1,0 +1,62 @@
+{
+  "controller_type": "frame_controller",
+  "name": "Android Phone",
+  "description": "While pointing at the phone: thumbstick scrolls, press stick or A to click, B goes back, Y opens Home.",
+  "bindings": {
+    "/actions/phone": {
+      "sources": [
+        {
+          "path": "/user/hand/left/input/thumbstick",
+          "mode": "joystick",
+          "inputs": {
+            "position": {
+              "output": "/actions/phone/in/scroll"
+            },
+            "click": {
+              "output": "/actions/phone/in/click"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/thumbstick",
+          "mode": "joystick",
+          "inputs": {
+            "position": {
+              "output": "/actions/phone/in/scroll"
+            },
+            "click": {
+              "output": "/actions/phone/in/click"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/a",
+          "mode": "button",
+          "inputs": {
+            "click": {
+              "output": "/actions/phone/in/click"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/b",
+          "mode": "button",
+          "inputs": {
+            "click": {
+              "output": "/actions/phone/in/back"
+            }
+          }
+        },
+        {
+          "path": "/user/hand/right/input/y",
+          "mode": "button",
+          "inputs": {
+            "click": {
+              "output": "/actions/phone/in/home"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

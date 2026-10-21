@@ -1,0 +1,46 @@
+{
+  "default_bindings": [
+    {
+      "controller_type": "frame_controller",
+      "binding_url": "bindings_frame_controller.json"
+    }
+  ],
+  "actions": [
+    {
+      "name": "/actions/phone/in/scroll",
+      "type": "vector2",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/phone/in/click",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/phone/in/back",
+      "type": "boolean",
+      "requirement": "optional"
+    },
+    {
+      "name": "/actions/phone/in/home",
+      "type": "boolean",
+      "requirement": "optional"
+    }
+  ],
+  "action_sets": [
+    {
+      "name": "/actions/phone",
+      "usage": "leftright"
+    }
+  ],
+  "localization": [
+    {
+      "language_tag": "en_US",
+      "/actions/phone": "Android Phone",
+      "/actions/phone/in/scroll": "Scroll",
+      "/actions/phone/in/click": "Click at pointer",
+      "/actions/phone/in/back": "Back",
+      "/actions/phone/in/home": "Home screen"
+    }
+  ]
+}
