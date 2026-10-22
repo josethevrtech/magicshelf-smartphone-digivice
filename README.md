@@ -70,21 +70,19 @@ Runtime state is in `~/.local/share/magicshelf/module-data/` under the stable
 creation ID. The old shared `Applications/DigitalPartner/vr` folder and legacy
 services are not required by this package. Never run both generations together.
 
-## Game and model inputs
+## First use
 
-Install Steam's ARM64 Proton 11.0 and Steam Linux Runtime 4 (arm64), and obtain
-Digital Partner and Jojogape's model separately. Import local files once:
+Subscribe and download in MagicShelf 0.3.8 or newer. Digital Partner and the
+Smartphone Digivice model are included with permission. No file import, model
+conversion or terminal command is needed.
 
-```sh
-python3 tools/import_inputs.py --game /path/to/game --model /path/to/exported-assets
-```
+If game support is missing, choose **Set up**, then **Install with Steam**.
+Finish each Steam download and return to MagicShelf. The app detects when setup
+is complete. Turn the creation On to begin. Updates preserve your pet and settings.
 
-To export the original model, run Blender with
-`--background --python tools/import_model.py -- --source /path/to/model-folder`.
-The importer copies only game/model inputs into
-`~/.local/share/magicshelf/creation-inputs/org.magicshelf.digital-partner`.
-Game saves use this creation's private Proton data directory. Neither inputs
-nor saves are uploaded or bundled in a public release.
+The build fetches a checksum-pinned input archive with `python3 tools/fetch_assets.py`.
+Game/model inputs are bundled separately from source licensing; see
+[ASSET_CREDITS.md](ASSET_CREDITS.md). Player saves and account data are never bundled.
 
 [Jojogape](https://x.com/jojogape) made the Smartphone Digivice model.
 [Aludeku](https://aludeku.itch.io/digital-partner-digimon) made Digital Partner.

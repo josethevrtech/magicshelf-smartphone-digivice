@@ -4,6 +4,12 @@ on:
     branches: [main]
     tags: ['v*']
   pull_request:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Creation version to publish
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:
@@ -26,13 +32,14 @@ jobs:
       - name: Verify release tag
         if: startsWith(github.ref, 'refs/tags/')
         run: python3 -c 'import json,os; v=json.load(open("module.json"))["version"]; assert os.environ["GITHUB_REF_NAME"] == "v"+v, "Tag must match creation version"'
+      - run: python3 tools/fetch_assets.py
       - run: python3 tools/package.py
       - uses: actions/upload-artifact@v4
         with:
           name: smartphone-digivice-frame-package
           path: dist/*
   release:
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
     needs: frame
     runs-on: ubuntu-24.04
     permissions:
@@ -45,9 +52,20 @@ jobs:
       - name: Publish Smartphone Digivice release
         env:
           GH_TOKEN: ${{ github.token }}
+          REQUESTED_VERSION: ${{ inputs.release_version }}
         run: |
-          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY"
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            TAG="v$REQUESTED_VERSION"
           else
-            gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --title "Smartphone Digivice $GITHUB_REF_NAME" --notes "Free Smartphone Digivice package for MagicShelf on Steam Frame. Permanent creation ID: org.magicshelf.digital-partner. Existing subscriptions and saves stay connected, including subscriptions through the original magicshelf-digivice catalog URL. See README for Steam runtime and external asset requirements."
+            TAG="$GITHUB_REF_NAME"
           fi
+          python3 - "$TAG" <<'CHECK'
+          import json,re,sys,pathlib
+          tag=sys.argv[1]
+          assert re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+',tag), 'Use a release version such as 0.2.6'
+          meta=json.loads(pathlib.Path('dist/catalog.json').read_text())['modules'][0]
+          assert tag == 'v'+meta['version'], 'Requested version must match the built creation'
+          CHECK
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --draft --title "Smartphone Digivice $TAG" --notes "Guided setup for MagicShelf on Steam Frame. Requires MagicShelf 0.3.8 or newer. Existing subscriptions and saved data are preserved."
+          gh release upload "$TAG" dist/* --repo "$GITHUB_REPOSITORY"
+          gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false --latest

@@ -11,4 +11,6 @@ export WINEDEBUG=-all DXVK_LOG_LEVEL=warn
 unset PROTON_LOG PROTON_LOG_DIR
 mkdir -p "$STEAM_COMPAT_DATA_PATH"
 cd -- "$MAGICSHELF_GAME_DIR"
-exec "$steam/steamapps/common/SteamLinuxRuntime_4-arm64/_v2-entry-point" --verb=waitforexitandrun -- "$steam/steamapps/common/Proton 11.0 (ARM64)/proton" waitforexitandrun "$MAGICSHELF_GAME_DIR/DigitalPartner.exe"
+runtime="${MAGICSHELF_STEAM_APP_4185400_DIR:-$steam/steamapps/common/SteamLinuxRuntime_4-arm64}"
+proton="${MAGICSHELF_STEAM_APP_4628740_DIR:-$steam/steamapps/common/Proton 11.0 (ARM64)}"
+exec "$runtime/_v2-entry-point" --verb=waitforexitandrun -- "$proton/proton" waitforexitandrun "$MAGICSHELF_GAME_DIR/DigitalPartner.exe"
