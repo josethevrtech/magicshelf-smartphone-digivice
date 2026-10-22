@@ -8,9 +8,9 @@ phone=meta['id']=='org.magicshelf.android-phone'
 inputs=pathlib.Path.home()/'.local/share/magicshelf/creation-inputs'/meta['id']
 assets=data/'assets';assets.mkdir(exist_ok=True)
 # Assets are read-only package/dependency content, never mutable save data.
-source=package/'assets' if phone else inputs/'assets'
+source=package/'assets' if phone else package/'assets/device'
 if not (source/('android-phone/device.mesh' if phone else 'device.mesh')).is_file():
-    raise SystemExit('Model missing. Run tools/import_inputs.py from this creation repository first.')
+    raise SystemExit('The creation download is incomplete. Remove and download it again; your saves are kept.')
 for path in source.iterdir():
     if path.name=='input': continue
     target=assets/path.name
@@ -23,8 +23,8 @@ settings=data/('android-settings.json' if phone else 'settings.json')
 if not settings.exists(): settings.write_text(json.dumps({'docked':True,'visible':True}))
 for name in ('android-source.json','private-source.json'):(data/name).unlink(missing_ok=True)
 if not phone:
-    game=inputs/'game/DigitalPartner.exe'
-    if not game.is_file(): raise SystemExit('Digital Partner game missing. Run tools/import_inputs.py first.')
+    game=package/'game/DigitalPartner.exe'
+    if not game.is_file(): raise SystemExit('The game download is incomplete. Remove and download this creation again; your saves are kept.')
     os.environ['MAGICSHELF_GAME_DIR']=str(game.parent)
 else:
     subprocess.run([sys.executable,str(package/'backend/prepare_runtime.py')],check=True)
