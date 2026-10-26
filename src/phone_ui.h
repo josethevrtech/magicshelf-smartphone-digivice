@@ -14,7 +14,7 @@ const std::array<PhoneButton,14> phoneButtons{{
  {248,112,208,72,PhoneAction::Home,"Home screen"},
 #endif
  {24,310,208,80,PhoneAction::Room,"In the room"},
- {248,310,208,80,PhoneAction::Hand,"Left hand"},
+ {248,310,208,80,PhoneAction::Hand,"Left wrist"},
  {24,406,208,72,PhoneAction::Dock,"Return to dock"},
  {248,406,208,72,PhoneAction::Recenter,"Bring closer"},
  {24,536,208,76,PhoneAction::Smaller,"−  Smaller"},
