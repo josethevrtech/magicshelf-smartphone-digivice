@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "org.magicshelf.digital-partner",
   "name": "Smartphone Digivice",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "description": "Raise your Digital Partner inside the Courage Smartphone Digivice on Steam Frame.",
   "repository": "https://github.com/josethevrtech/magicshelf-smartphone-digivice",
   "sdk_version": "1.0.0",

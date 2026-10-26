@@ -25,6 +25,11 @@
       "name": "/actions/phone/in/home",
       "type": "boolean",
       "requirement": "optional"
+    },
+    {
+      "name": "/actions/phone/in/grip",
+      "type": "boolean",
+      "requirement": "optional"
     }
   ],
   "action_sets": [
@@ -40,7 +45,8 @@
       "/actions/phone/in/scroll": "Scroll",
       "/actions/phone/in/click": "Click at pointer",
       "/actions/phone/in/back": "Back",
-      "/actions/phone/in/home": "Home screen"
+      "/actions/phone/in/home": "Home screen",
+      "/actions/phone/in/grip": "Hold grip to pick up; release to place"
     }
   ]
 }

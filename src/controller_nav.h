@@ -5,7 +5,7 @@
 #include <cmath>
 #include <algorithm>
 struct ControllerNav {
- vr::VRActionSetHandle_t set=0;vr::VRActionHandle_t scroll=0,click=0,back=0,home=0;vr::VRInputValueHandle_t hand[2]{};
+ vr::VRActionSetHandle_t set=0;vr::VRActionHandle_t scroll=0,click=0,back=0,home=0,grip=0;vr::VRInputValueHandle_t hand[2]{};
  bool available=false,wasFocused=false,wasGrabbing=false,waitForNeutral=false;
  float wheelX=0,wheelY=0;
  explicit ControllerNav(const std::string&base){
@@ -13,10 +13,11 @@ struct ControllerNav {
   if(error){std::cerr<<"Phone action manifest error "<<error<<"\n";return;}
   error=i->GetActionSetHandle("/actions/phone",&set);
   error=(vr::EVRInputError)(error|i->GetActionHandle("/actions/phone/in/scroll",&scroll)|i->GetActionHandle("/actions/phone/in/click",&click)|i->GetActionHandle("/actions/phone/in/back",&back)|i->GetActionHandle("/actions/phone/in/home",&home));
+  error=(vr::EVRInputError)(error|i->GetActionHandle("/actions/phone/in/grip",&grip));
   i->GetInputSourceHandle("/user/hand/left",&hand[0]);i->GetInputSourceHandle("/user/hand/right",&hand[1]);
   available=error==vr::VRInputError_None;std::cerr<<"Phone controller actions ready="<<available<<"\n";
  }
- struct Result{float scrollX=0,scrollY=0;int x=0,y=0;bool click=false,back=false,home=false,axisAvailable=false;};
+ struct Result{float scrollX=0,scrollY=0;int x=0,y=0;bool click=false,back=false,home=false,axisAvailable=false,grip=false,gripPressed=false,gripAvailable=false;};
  static float deflection(float value){return std::abs(value)<=.25f?0:std::copysign((std::min(std::abs(value),1.f)-.25f)/.75f,value);}
  Result update(bool focused,int role,float dt,bool grabbing=false){
   Result out;if(!available)return out;auto*i=vr::VRInput();vr::VRActiveActionSet_t active{};active.ulActionSet=set;
@@ -28,6 +29,7 @@ struct ControllerNav {
   auto error=i->UpdateActionState(focused?&active:nullptr,sizeof(active),focused?1:0);
   if(error||!focused){wasFocused=false;wheelX=wheelY=0;return out;}
   auto pressed=[&](vr::VRActionHandle_t action){vr::InputDigitalActionData_t data{};return i->GetDigitalActionData(action,&data,sizeof(data),active.ulRestrictedToDevice)==vr::VRInputError_None&&wasFocused&&data.bActive&&data.bChanged&&data.bState;};
+  vr::InputDigitalActionData_t gripData{};out.gripAvailable=i->GetDigitalActionData(grip,&gripData,sizeof(gripData),active.ulRestrictedToDevice)==vr::VRInputError_None&&gripData.bActive;out.grip=out.gripAvailable&&gripData.bState;out.gripPressed=wasFocused&&out.grip&&gripData.bChanged;
   if(!grabbing){out.click=pressed(click);out.back=pressed(back);out.home=pressed(home);}
   vr::InputAnalogActionData_t axis{};
   if(i->GetAnalogActionData(scroll,&axis,sizeof(axis),active.ulRestrictedToDevice)==vr::VRInputError_None&&axis.bActive){
